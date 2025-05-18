@@ -1,0 +1,22 @@
+package components
+
+import "goth-starter/models"
+
+templ SearchCountries(countries []models.Country) {
+	<div class="flex gap-3 max-w-sm mb-6">
+		<input
+			type="text"
+			name="search"
+			hx-get="/search"
+			hx-trigger="keyup changed delay:500ms"
+			hx-target="#country-list"
+			hx-swap="outerHTML"
+			placeholder="Search countries"
+			hx-indicator="#search-indicator"
+			class="border border-gray-200 rounded-md bg-white p-2 w-full outline-sky-600"
+		/>
+		<div id="search-indicator" class="htmx-indicator">
+			Loading...
+		</div>
+	</div>
+}
