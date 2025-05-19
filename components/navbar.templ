@@ -1,0 +1,29 @@
+package components
+
+templ Navbar() {
+	<nav class="border-b bg-white border-gray-200 py-3 gap-x-10 flex items-center justify-between px-4">
+		<a href="/" class="text-3xl font-bold text-sky-600 leading-tight">Roovies</a>
+		<div class="flex gap-6 items-center w-full">
+			<input
+				type="search"
+				name="query"
+				hx-get="/movies"
+				hx-swap="outerHTML"
+				hx-trigger="keyup changed delay:500ms"
+				hx-target="#movies-list"
+				class="w-full px-3 border py-2 border-gray-300 rounded-md outline-sky-600"
+				placeholder="Search movies"
+				aria-label="Search"
+			/>
+			<a href="/" class="font-medium">Movies</a>
+			<a href="/auth/login" class="font-medium">Login</a>
+			<a
+				href="/auth/sign-up"
+				class="font-semibold bg-sky-600 text-white rounded-md px-3 py-2 text-sm font-medium text-gray-900 min-w-max"
+			>
+				Sign
+				up
+			</a>
+		</div>
+	</nav>
+}

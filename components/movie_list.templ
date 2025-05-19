@@ -5,19 +5,23 @@ import (
 	"strconv"
 )
 
-templ MovieList(movies models.MovieListResponse) {
+templ MoviesPage(movies models.MovieListResponse) {
 	@Base("Movies", "The list of movies") {
-		<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-			for _, movie := range movies.Results {
-				<article class="p-3 border border-gray-200 bg-white rounded-md">
-					<img src={ templ.SafeURL(movie.PosterPath) } class="w-full rounded mb-2"/>
-					<h2 class="text-xl font-bold  text-sky-600">
-						<a href={ templ.SafeURL("/movie/" + strconv.Itoa(movie.ID)) } class="hover:underline">{ movie.Title }</a>
-					</h2>
-					<p><b>Release date:</b> { movie.ReleaseDate }</p>
-					<p><b>Vote average:</b> { strconv.FormatFloat(movie.VoteAverage, 'f', 2, 64) }</p>
-				</article>
-			}
-		</div>
+		@MovieList(movies)
 	}
+}
+
+templ MovieList(movies models.MovieListResponse) {
+	<div id="movies-list" class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+		for _, movie := range movies.Results {
+			<article class="p-3 border border-gray-200 bg-white rounded-md">
+				<img src={ templ.SafeURL(movie.PosterPath) } class="w-full rounded mb-2"/>
+				<h2 class="text-xl font-bold  text-sky-600">
+					<a href={ templ.SafeURL("/movie/" + strconv.Itoa(movie.ID)) } class="hover:underline">{ movie.Title }</a>
+				</h2>
+				<p><b>Release date:</b> { movie.ReleaseDate }</p>
+				<p><b>Vote average:</b> { strconv.FormatFloat(movie.VoteAverage, 'f', 2, 64) }</p>
+			</article>
+		}
+	</div>
 }

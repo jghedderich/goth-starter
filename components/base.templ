@@ -6,15 +6,13 @@ templ Base(title string, description string) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<title>{ title } | GoTH Starter</title>
+			<title>{ title } | Roovies</title>
 			<meta name="description" content={ description }/>
 			<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 			<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 		</head>
 		<body class="bg-gray-50">
-			<nav class="border-b bg-white border-gray-200 py-3 flex items-center justify-center">
-				<a href="/">Home</a>
-			</nav>
+			@Navbar()
 			<main class="max-w-screen-xl mx-auto px-4 py-6 bg-gray-50">
 				<h1 class="text-3xl font-bold mb-6">{ title }</h1>
 				{ children... }

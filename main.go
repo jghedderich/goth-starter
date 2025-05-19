@@ -22,6 +22,7 @@ func main() {
 	// Routes
 	r.Get("/", handlers.MoviesList)
 	r.Get("/movie/{id}", handlers.MovieDetail)
+	r.Get("/movies", handlers.SearchMovies)
 
 	log.Printf("Starting server on port %s", port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
