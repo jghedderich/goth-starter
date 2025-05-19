@@ -1,36 +1,71 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"goth-starter/components"
 	"goth-starter/models"
+	"log"
 	"net/http"
-	"strings"
+	"os"
+
+	"github.com/go-chi/chi/v5"
 )
 
-func CountryList(w http.ResponseWriter, r *http.Request) {
-	component := components.CountriesPage(models.Countries)
+func getRequiredEnv(key string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		log.Fatalf("Missing required environment variable: %s", key)
+	}
+	return value
+}
+
+func MoviesList(w http.ResponseWriter, r *http.Request) {
+	baseURL := getRequiredEnv("TMDB_BASE_URL")
+	apiKey := getRequiredEnv("TMDB_API_KEY")
+	url := fmt.Sprintf("%s/movie/popular?api_key=%s", baseURL, apiKey)
+	resp, err := http.Get(url)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+	var movieResponse models.MovieListResponse
+	err = json.NewDecoder(resp.Body).Decode(&movieResponse)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Construct full poster URL (TMDB returns relative paths)
+	for i := range movieResponse.Results {
+		movieResponse.Results[i].PosterPath = "https://image.tmdb.org/t/p/w500" + movieResponse.Results[i].PosterPath
+	}
+
+	component := components.MovieList(movieResponse)
 	component.Render(r.Context(), w)
 }
 
-func CountryDetail(w http.ResponseWriter, r *http.Request) {
-	name := r.PathValue("name")
-	for _, country := range models.Countries {
-		if country.Name == name {
-			component := components.CountryDetail(country)
-			component.Render(r.Context(), w)
-			return
-		}
-	}
-}
+func MovieDetail(w http.ResponseWriter, r *http.Request) {
+	movieID := chi.URLParam(r, "id")
+	baseURL := getRequiredEnv("TMDB_BASE_URL")
+	apiKey := getRequiredEnv("TMDB_API_KEY")
 
-func SearchCountries(w http.ResponseWriter, r *http.Request) {
-	query := strings.ToLower(r.URL.Query().Get("search"))
-	var results []models.Country
-	for _, country := range models.Countries {
-		if strings.Contains(strings.ToLower(country.Name), query) {
-			results = append(results, country)
-		}
+	url := fmt.Sprintf("%s/movie/%s?api_key=%s", baseURL, movieID, apiKey)
+	resp, err := http.Get(url)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	var movieResponse models.MovieDetailResponse
+	err = json.NewDecoder(resp.Body).Decode(&movieResponse)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	components.CountryList(results).Render(r.Context(), w)
+	component := components.MovieDetail(movieResponse)
+	component.Render(r.Context(), w)
 }

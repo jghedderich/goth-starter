@@ -55,7 +55,7 @@ func Base(title string, description string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><script src=\"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4\"></script></head><body class=\"bg-gray-50\"><nav class=\"border-b bg-white border-gray-200 py-3 flex items-center justify-center\"><a href=\"/\">Home</a></nav><main class=\"container mx-auto px-4 py-6 bg-gray-50\"><h1 class=\"text-3xl font-bold mb-6\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><script src=\"https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4\"></script></head><body class=\"bg-gray-50\"><nav class=\"border-b bg-white border-gray-200 py-3 flex items-center justify-center\"><a href=\"/\">Home</a></nav><main class=\"max-w-screen-xl mx-auto px-4 py-6 bg-gray-50\"><h1 class=\"text-3xl font-bold mb-6\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

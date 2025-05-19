@@ -1,0 +1,20 @@
+package components
+
+import (
+	"goth-starter/models"
+	"strconv"
+)
+
+templ MovieDetail(movie models.MovieDetailResponse) {
+	@Base(movie.Title, "Check the details of "+movie.Title) {
+		<div id="movie-detail">
+			<p><b>Release date:</b> { movie.ReleaseDate }</p>
+			<p><b>Vote average:</b> { strconv.FormatFloat(movie.VoteAverage, 'f', 2, 64) }</p>
+			<div class="flex gap-1">
+				for _, genre := range movie.Genres {
+					<span class="bg-sky-100 rounded-full px-2 py-1 text-xs">{ genre.Name }</span>
+				}
+			</div>
+		</div>
+	}
+}
