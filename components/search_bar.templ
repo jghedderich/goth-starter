@@ -1,15 +1,20 @@
 package components
 
+import (
+	"goth-starter/models"
+	"strconv"
+)
+
 templ SearchBar() {
 	<div class="relative">
 		@SearchIcon("absolute left-3 size-5 top-1/2 -translate-y-1/2 text-gray-600")
 		<input
 			type="search"
 			name="query"
-			hx-get="/movies"
-			hx-swap="outerHTML"
+			hx-get="/search/movies"
+			hx-swap="innerHTML"
 			hx-trigger="keyup changed delay:500ms, search"
-			hx-target="#movies-list"
+			hx-target="#movie-results"
 			hx-indicator="#search-indicator"
 			class="w-full pl-10 pr-3 border py-2 border-gray-300 rounded-md outline-sky-600"
 			placeholder="Search movies"
@@ -18,5 +23,19 @@ templ SearchBar() {
 		<div id="search-indicator" class="absolute top-1/2  -translate-y-1/2 right-10 text-gray-400 htmx-indicator">
 			@LoadingIcon("animate-spin text-sky-600")
 		</div>
+		<div id="movie-results" class="absolute z-50 w-full mt-1"></div>
 	</div>
+}
+
+templ MovieResults(movies models.MovieListResponse) {
+	if len(movies.Results) > 0 {
+		<div id="movie-results" class="grid gap-y-1 bg-white rounded-md shadow-lg mt-2 border border-gray-300 overflow-hidden">
+			for _, movie := range movies.Results {
+				<a href={ templ.SafeURL("/movie/" + strconv.Itoa(movie.ID)) } class="py-1 px-3 text-black w-full hover:bg-gray-100 flex gap-2 items-center">
+					@SearchIcon("size-4")
+					{ movie.Title }
+				</a>
+			}
+		</div>
+	}
 }

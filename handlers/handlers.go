@@ -73,20 +73,23 @@ func MovieDetail(w http.ResponseWriter, r *http.Request) {
 
 func SearchMovies(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
+
+	if query == "" {
+		components.MovieResults(models.MovieListResponse{}).Render(r.Context(), w)
+		return
+	}
+
 	baseURL := getRequiredEnv("TMDB_BASE_URL")
 	apiKey := getRequiredEnv("TMDB_API_KEY")
-	var url string
-	if query == "" {
-		url = fmt.Sprintf("%s/discover/movie?api_key=%s", baseURL, apiKey)
-	} else {
-		url = fmt.Sprintf("%s/search/movie?api_key=%s&query=%s", baseURL, apiKey, query)
-	}
+	url := fmt.Sprintf("%s/search/movie?api_key=%s&query=%s", baseURL, apiKey, query)
+
 	resp, err := http.Get(url)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	defer resp.Body.Close()
+
 	var movieResponse models.MovieListResponse
 	err = json.NewDecoder(resp.Body).Decode(&movieResponse)
 	if err != nil {
@@ -94,11 +97,5 @@ func SearchMovies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Construct full poster URL (TMDB returns relative paths)
-	for i := range movieResponse.Results {
-		movieResponse.Results[i].PosterPath = "https://image.tmdb.org/t/p/w500" + movieResponse.Results[i].PosterPath
-	}
-
-	component := components.MovieList(movieResponse)
-	component.Render(r.Context(), w)
+	components.MovieResults(movieResponse).Render(r.Context(), w)
 }
