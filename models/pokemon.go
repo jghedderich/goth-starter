@@ -21,6 +21,8 @@ type MovieDetailResponse struct {
 	Title       string  `json:"title"`
 	Overview    string  `json:"overview"`
 	PosterPath  string  `json:"poster_path"` // Relative path, needs base URL
+	HomePage    string  `json:"homepage"`
+	TagLine     string  `json:"tagline"`
 	ReleaseDate string  `json:"release_date"`
 	VoteAverage float64 `json:"vote_average"`
 	Genres      []Genre `json:"genres"`

@@ -1,0 +1,22 @@
+package components
+
+templ SearchBar() {
+	<div class="relative">
+		@SearchIcon("absolute left-3 size-5 top-1/2 -translate-y-1/2 text-gray-600")
+		<input
+			type="search"
+			name="query"
+			hx-get="/movies"
+			hx-swap="outerHTML"
+			hx-trigger="keyup changed delay:500ms, search"
+			hx-target="#movies-list"
+			hx-indicator="#search-indicator"
+			class="w-full pl-10 pr-3 border py-2 border-gray-300 rounded-md outline-sky-600"
+			placeholder="Search movies"
+			aria-label="Search"
+		/>
+		<div id="search-indicator" class="absolute top-1/2  -translate-y-1/2 right-10 text-gray-400 htmx-indicator">
+			@LoadingIcon("animate-spin text-sky-600")
+		</div>
+	</div>
+}

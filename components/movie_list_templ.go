@@ -99,7 +99,7 @@ func MovieList(movies models.MovieListResponse) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"w-full rounded mb-2\"><h2 class=\"text-xl font-bold  text-sky-600\"><a href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" height=\"400\" width=\"230\" alt=\"\" class=\"w-full rounded mb-2\"><h2 class=\"text-xl font-bold  text-sky-600\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

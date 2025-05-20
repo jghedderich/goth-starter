@@ -8,7 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Navbar() templ.Component {
+func SearchBar() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,23 +29,23 @@ func Navbar() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<nav class=\"grid gap-y-3 border-b bg-white border-gray-200 py-3 px-4\"><div class=\"flex items-center w-full justify-between gap-x-10\"><a href=\"/\" class=\"text-3xl font-bold text-sky-600 leading-tight\">Roovies</a><div class=\"flex gap-6 items-center w-auto md:w-full\"><div class=\"hidden md:block w-full\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SearchBar().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = SearchIcon("absolute left-3 size-5 top-1/2 -translate-y-1/2 text-gray-600").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><a href=\"/\" class=\"font-medium\">Movies</a> <a href=\"/auth/login\" class=\"font-medium\">Login</a> <a href=\"/auth/sign-up\" class=\"font-semibold bg-sky-600 text-white rounded-md px-3 py-2 text-sm font-medium text-gray-900 min-w-max\">Sign up</a></div></div><div class=\"block md:hidden w-full\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<input type=\"search\" name=\"query\" hx-get=\"/movies\" hx-swap=\"outerHTML\" hx-trigger=\"keyup changed delay:500ms, search\" hx-target=\"#movies-list\" hx-indicator=\"#search-indicator\" class=\"w-full pl-10 pr-3 border py-2 border-gray-300 rounded-md outline-sky-600\" placeholder=\"Search movies\" aria-label=\"Search\"><div id=\"search-indicator\" class=\"absolute top-1/2  -translate-y-1/2 right-10 text-gray-400 htmx-indicator\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = SearchBar().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = LoadingIcon("animate-spin text-sky-600").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></nav>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -8,12 +8,20 @@ import (
 templ MovieDetail(movie models.MovieDetailResponse) {
 	@Base(movie.Title, "Check the details of "+movie.Title) {
 		<div id="movie-detail">
-			<p><b>Release date:</b> { movie.ReleaseDate }</p>
-			<p><b>Vote average:</b> { strconv.FormatFloat(movie.VoteAverage, 'f', 2, 64) }</p>
-			<div class="flex gap-1">
-				for _, genre := range movie.Genres {
-					<span class="bg-sky-100 rounded-full px-2 py-1 text-xs">{ genre.Name }</span>
-				}
+			<div class="flex flex-col md:flex-row gap-6">
+				<img src={ templ.SafeURL(movie.PosterPath) } class="rounded mb-2" width="300" height="300" alt=""/>
+				<div class="flex flex-col gap-2">
+					<h1 class="text-3xl font-bold">{ movie.Title }</h1>
+					<span class="font-medium text-gray-500 mb-2">{ movie.TagLine }</span>
+					<p>{ movie.Overview }</p>
+					<p><b>Release date:</b> { movie.ReleaseDate }</p>
+					<p><b>Vote average:</b> { strconv.FormatFloat(movie.VoteAverage, 'f', 2, 64) } / 10</p>
+					<div class="flex gap-1">
+						for _, genre := range movie.Genres {
+							<span class="bg-sky-100 rounded-full px-3 py-1 text-sm font-semibold">{ genre.Name }</span>
+						}
+					</div>
+				</div>
 			</div>
 		</div>
 	}

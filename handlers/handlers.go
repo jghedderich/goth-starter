@@ -65,6 +65,7 @@ func MovieDetail(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	movieResponse.PosterPath = "https://image.tmdb.org/t/p/w500" + movieResponse.PosterPath
 
 	component := components.MovieDetail(movieResponse)
 	component.Render(r.Context(), w)
@@ -74,8 +75,12 @@ func SearchMovies(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	baseURL := getRequiredEnv("TMDB_BASE_URL")
 	apiKey := getRequiredEnv("TMDB_API_KEY")
-
-	url := fmt.Sprintf("%s/search/movie?api_key=%s&query=%s", baseURL, apiKey, query)
+	var url string
+	if query == "" {
+		url = fmt.Sprintf("%s/discover/movie?api_key=%s", baseURL, apiKey)
+	} else {
+		url = fmt.Sprintf("%s/search/movie?api_key=%s&query=%s", baseURL, apiKey, query)
+	}
 	resp, err := http.Get(url)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
